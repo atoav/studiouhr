@@ -8,7 +8,10 @@ textformat = '%H:%M'
 
 pyglet.font.add_directory('fonts/')
 
-window = pyglet.window.Window(fullscreen=True, caption='Studiouhr')
+try:
+    window = pyglet.window.Window(fullscreen=True, caption='Studiouhr')
+except NoSuchDisplayException:
+    raise Exception("Tried to create a Display, but there is no display connected?! ಠ_ಠ")
 
 
 def updatetime(value):
