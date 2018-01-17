@@ -1,0 +1,6 @@
+TODO
+
+- Add Clear list of dependecies
+- tie python package
+- write sync script for cronjob
+- repo
