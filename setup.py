@@ -8,7 +8,7 @@ setup(name='studiouhr',
         author_email='dh@atoav.com',
         license='MIT',
         packages=['studiouhr'],
-        install_requires=['pyglet', 'astral', 'colorsys'],
+        install_requires=['pyglet', 'astral'],
         package_data = {'':['fonts/*.ttf']},
         zip_safe=False
         )
