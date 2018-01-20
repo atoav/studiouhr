@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='studiouhr',
-        version='0.1',
+        version='0.2',
         description='A pyglet based fullscreen studio clock',
         url='https://github.com/atoav/studiouhr',
         author='David Huss',
@@ -10,5 +10,6 @@ setup(name='studiouhr',
         packages=['studiouhr'],
         install_requires=['pyglet', 'astral'],
         package_data = {'':['fonts/*.ttf']},
+        entry_points={'console_scripts':['studiouhr=studiouhr.studiouhr:main']},
         zip_safe=False
         )
