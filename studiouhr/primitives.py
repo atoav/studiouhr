@@ -1,10 +1,4 @@
 #!/usr/bin/env python
-"""
-Implementing 2D drawing primitives using
-pyglet.gl
-copyright 2007 by Flavio Codeco Coelho
-"""
-
 from __future__ import division, print_function, unicode_literals
 
 from pyglet import font
