@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+from ConfigParser import ConfigParser
+
 class Config():
     def __init__(self, filename="settings.ini"):
         self.filename = filename
