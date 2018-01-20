@@ -9,5 +9,6 @@ setup(name='studiouhr',
         license='MIT',
         packages=['studiouhr'],
         install_requires=['pyglet', 'astral', 'colorsys'],
+        package_data = {'':['fonts/*.ttf']},
         zip_safe=False
         )
