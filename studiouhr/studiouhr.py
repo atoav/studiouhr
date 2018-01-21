@@ -9,6 +9,7 @@ from config import *
 from datetime import *
 import pyglet
 import colorsys
+import ast
 from ConfigParser import ConfigParser
 from astral import Astral
 import os.path
@@ -59,7 +60,7 @@ class Dots():
     """
     A collection of radial dots updating over the course of a minute
     """
-    def __init__(self, x, y, radius, n=60, dotradius=2, dotstroke=1, dotcolor=(255,0,255,1)):
+    def __init__(self, x, y, radius, n=60, dotradius=2, dotstroke=1, dotcolor=(255,255,255,1)):
         self.x, self.y = x, y
         self.pos = Vector(self.x, self.y)
         self.radius = radius
@@ -103,7 +104,7 @@ class StillDots(Dots):
     """
     A collection of radial non-updating dots, for 5 second ticks
     """
-    def __init__(self, x, y, radius, n=60, dotradius=2, dotstroke=1, dotcolor=(255,0,255,1)):
+    def __init__(self, x, y, radius, n=60, dotradius=2, dotstroke=1, dotcolor=(255,255,255,1)):
         Dots.__init__(self, x, y, radius, n, dotradius, dotstroke, dotcolor)
 
     def update(self, value):
