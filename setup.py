@@ -8,7 +8,7 @@ setup(name='studiouhr',
         author_email='dh@atoav.com',
         license='MIT',
         packages=['studiouhr'],
-        install_requires=['pyglet', 'astral'],
+        install_requires=['pyglet', 'astral', 'PyOpenGL', 'PyOpenGL_accelerate'],
         package_data = {'':['fonts/*.ttf']},
         entry_points={'console_scripts':['studiouhr=studiouhr:main']},
         zip_safe=False
