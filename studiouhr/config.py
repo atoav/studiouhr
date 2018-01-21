@@ -46,6 +46,7 @@ class Config():
         self.dotinterval = float(self.retrieve("Drawscheduler", "dotinterval", 0.02))
         self.arcinterval = float(self.retrieve("Drawscheduler", "arcinterval", 0.02))
         self.indicatorinterval = float(self.retrieve("Drawscheduler", "indicatorinterval", 0.02))
+        print "Read settings from "+str(path)
 
     def retrieve(self, configsection, configoption, default):
         """ Returns a Value from a config, if it fails returns defaults """
