@@ -152,7 +152,8 @@ if __name__ == "__main__":
 
     # Resolves to '%H:%M' on default
     textformat = config.textformat
-    pyglet.font.add_directory('fonts/')
+    fontpath = os.path.join(os.path.dirname(__file__), 'fonts')
+    pyglet.font.add_directory(fontpath)
     pyglet.font.load(config.fontname)
     window = pyglet.window.Window(fullscreen=config.fullscreen, caption='Studiouhr')
     window.set_mouse_visible(False)
