@@ -153,6 +153,10 @@ if __name__ == "__main__":
     # Resolves to '%H:%M' on default
     textformat = config.textformat
     fontpath = os.path.join(os.path.dirname(__file__), 'fonts')
+    if os.path.exists(fontpath):
+        print "Load fonts from "+str(fontpath)
+    else:
+        print "Fontfolder "+str(fontpath)+" does not exist"
     pyglet.font.add_directory(fontpath)
     pyglet.font.load(config.fontname)
     window = pyglet.window.Window(fullscreen=config.fullscreen, caption='Studiouhr')
