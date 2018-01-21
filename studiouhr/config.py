@@ -6,6 +6,13 @@ from ConfigParser import ConfigParser
 
 class Config():
     def __init__(self, filename="settings.ini"):
+        self.defaulttimedict  = {
+            "06:00":(12,151,250),
+            "06:30":(251,13,52),
+            "12:00":(247,37,21),
+            "23:30":(251,13,52),
+            "00:30":(12,151,250)
+        }
         self.filename = filename
         self.homepath = os.path.expanduser("~")
         self.configfolder = os.path.join(self.homepath, ".studiouhr")
@@ -46,7 +53,7 @@ class Config():
         self.dotinterval = float(self.retrieve("Drawscheduler", "dotinterval", 0.02))
         self.arcinterval = float(self.retrieve("Drawscheduler", "arcinterval", 0.02))
         self.indicatorinterval = float(self.retrieve("Drawscheduler", "indicatorinterval", 0.02))
-        self.timedict = ast.literal_eval(config.get("Zeitfarben", "timedict", ))
+        self.timedict = ast.literal_eval(self.retrieve("Zeitfarben", "timedict", self.defaulttimedict))
         print "Read settings from "+str(path)
 
     def retrieve(self, configsection, configoption, default):
@@ -58,15 +65,6 @@ class Config():
 
     def set_defaults(self):
         # Sets the default values
-
-        # Default Timedict
-        timedict = {
-            "06:00":(12,151,250),
-            "06:30":(251,13,52),
-            "12:00":(247,37,21),
-            "23:30":(251,13,52),
-            "00:30":(12,151,250)
-        }
         # Create Sections
         self.config.add_section("Display")
         self.config.add_section("Digits")
@@ -93,4 +91,4 @@ class Config():
         self.config.set("Drawscheduler", "dotinterval", 0.02)
         self.config.set("Drawscheduler", "arcinterval", 0.02)
         self.config.set("Drawscheduler", "indicatorinterval", 0.02)
-        self.config.set("Zeitfarben", "timedict", timedict)
+        self.config.set("Zeitfarben", "timedict", self.defaulttimedict)
