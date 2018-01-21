@@ -87,9 +87,11 @@ def lerp3d(value, (s1, s2, s3), (e1, e2, e3), minimum=0.0, maximum=1.0):
     """
     3D Linear Interpolation
     """
+
     r1 = lerp(value, s1, e1, minimum, maximum)
     r2 = lerp(value, s2, e2, minimum, maximum)
     r3 = lerp(value, s3, e3, minimum, maximum)
+
     return (r1, r2, r3)
 
 
@@ -160,7 +162,7 @@ def zeitfarbe(value, timedict, minimum=0.0, maximum=1.0):
     # Get the interpolated HSV value
     h, s, v, lastkey, nextkey, blendvalue = tableinterpolate(hsvtable, value)
     # Covnert it back to RGB for convinience
-    r, g, b = hsv_to_rgb(h, s, v)
+    r, g, b = [x*255 for x in colorsys.hsv_to_rgb(h, s, v)]
     return (r, g, b), timedict[lastkey], timedict[nextkey], blendvalue
 
 if __name__ == "__main__":
@@ -169,4 +171,5 @@ if __name__ == "__main__":
     now = datetime.now()
     value = timetofloat(now)
     zeitfarben, lastcolor, nextcolor, blendvalue = zeitfarbe(value, timedict)
-    r, g, b = [int(channel) for channel in zeitfarben]
+    r, g, b = [channel for channel in zeitfarben]
+    print r, g, b
