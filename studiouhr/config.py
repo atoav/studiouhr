@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+import os, ast
 from ConfigParser import ConfigParser
 
 class Config():
@@ -46,6 +46,7 @@ class Config():
         self.dotinterval = float(self.retrieve("Drawscheduler", "dotinterval", 0.02))
         self.arcinterval = float(self.retrieve("Drawscheduler", "arcinterval", 0.02))
         self.indicatorinterval = float(self.retrieve("Drawscheduler", "indicatorinterval", 0.02))
+        self.timedict = ast.literal_eval(config.get("Zeitfarben", "timedict", ))
         print "Read settings from "+str(path)
 
     def retrieve(self, configsection, configoption, default):
@@ -57,12 +58,24 @@ class Config():
 
     def set_defaults(self):
         # Sets the default values
+
+        # Default Timedict
+        timedict = {
+            "06:00":(12,151,250),
+            "06:30":(251,13,52),
+            "12:00":(247,37,21),
+            "23:30":(251,13,52),
+            "00:30":(12,151,250)
+        }
+        # Create Sections
         self.config.add_section("Display")
         self.config.add_section("Digits")
         self.config.add_section("Arc")
         self.config.add_section("Dots")
         self.config.add_section("Drawscheduler")
-        self.config.add_section("Geo")
+        self.config.add_section("Zeitfarben")
+
+        # Set Values
         self.config.set("Display", "fullscreen", True)
         self.config.set("Digits", "textformat", "%H:%M")
         self.config.set("Digits", "fontname", "Roboto Mono Thin")
@@ -80,3 +93,4 @@ class Config():
         self.config.set("Drawscheduler", "dotinterval", 0.02)
         self.config.set("Drawscheduler", "arcinterval", 0.02)
         self.config.set("Drawscheduler", "indicatorinterval", 0.02)
+        self.config.set("Zeitfarben", "timedict", timedict)
