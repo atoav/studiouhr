@@ -12,7 +12,8 @@ import colorsys
 import ast
 from ConfigParser import ConfigParser
 from astral import Astral
-import os.path
+import os.path, sys
+from socket import gethostname
 
 
 
@@ -145,11 +146,27 @@ def get_zeitfarbe(value):
     r, g, b = [int(channel) for channel in zeitfarben]
     return r, g, b
 
-
+def printstats(value):
+    global r
+    global g
+    global b
+    global hostname
+    now = datetime.now()
+    sys.stdout.write("-"*15+" studiouhr.py running @"+str(hostname)+" "+"-"*15+" \r")
+    sys.stdout.flush()
+    sys.stdout.write(("Time:").ljust(30)+now.strftime("%H:%M:%S.%f")+" \r")
+    sys.stdout.flush()
+    sys.stdout.write("FPS:".ljust(30)+str(pyglet.clock.get_fps())+" \r")
+    sys.stdout.flush()
+    colorstring = "Current Color:".ljust(30)+str((r,g,b))
+    sys.stdout.write(colorstring+" \r")
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":
-    print "------ Studiouhr started ------"
+    # Get hostname with help of socket
+    hostname = gethostname()
+    print "------ Studiouhr started on host "+str(hostname)+" ------"
 
     # Load Configs
     config = Config("settings.ini")
@@ -191,6 +208,7 @@ if __name__ == "__main__":
     if config.displayseconddots: dots = Dots(hw, hh, secondradius, 60, dotdiameter, dotdiameter, (r,g,b,1))
     background = Polygon([(0,0), (0, window.width), (window.width, window.height), (window.width, 0)], 0, (0,0,0,1))
     
+
     # On Draw Function Calls
     @window.event
     def on_draw():
@@ -202,7 +220,7 @@ if __name__ == "__main__":
         r,g,b = get_zeitfarbe(None)
         label.color = (r,g,b,255)
         labelspecial.color = (r,g,b,255)
-
+        printstats(None)
         # Convert 8bit color to float
         r,g,b = r/255., g/255., b/255.
         dotsfive.dotcolor = (r,g,b,1)
@@ -224,9 +242,12 @@ if __name__ == "__main__":
     # Schedule Intervals
     pyglet.clock.schedule_interval(update_time_string, config.clockinterval)
     pyglet.clock.schedule_interval(update_special_string, 1000)
+    pyglet.clock.schedule_interval(printstats, 1)
     pyglet.clock.schedule_interval(get_zeitfarbe, 0.02)
     if config.displayseconddots: pyglet.clock.schedule_interval(dots.update, config.dotinterval)
     if config.displayarc: pyglet.clock.schedule_interval(arc.update, config.arcinterval)
     if config.displayfivemarks: pyglet.clock.schedule_interval(dotsfive.update, config.indicatorinterval)
 
+    print
+    print "Clock is running now."
     pyglet.app.run()
