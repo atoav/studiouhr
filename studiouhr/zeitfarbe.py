@@ -4,14 +4,14 @@
 from datetime import *
 import colorsys
 
-
+# Timedict for Debugging
 timedict = {
-    "06:00":(12,151,250),
-    "06:30":(251,13,52),
-    "12:00":(245,84,51),
-    "23:30":(251,13,52),
-    "00:30":(12,151,250)
-}
+            "06:00":(12,151,250),
+            "06:30":(251,13,52),
+            "12:00":(247,37,21),
+            "23:30":(251,13,52),
+            "00:30":(12,151,250)
+        }
 
 
 def timetofloat(datetimeobject, totalturn=24, minimum=0.0, maximum=1.0):
