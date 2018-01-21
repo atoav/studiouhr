@@ -148,10 +148,15 @@ def get_zeitfarbe(value):
 
 
 if __name__ == "__main__":
+    print "------ Studiouhr started ------"
+
+    # Load Configs
     config = Config("settings.ini")
 
     # Resolves to '%H:%M' on default
     textformat = config.textformat
+
+    # Load Fonts
     fontpath = os.path.join(os.path.dirname(__file__), 'fonts')
     if os.path.exists(fontpath):
         print "Load fonts from "+str(fontpath)
@@ -159,6 +164,8 @@ if __name__ == "__main__":
         print "Fontfolder "+str(fontpath)+" does not exist"
     pyglet.font.add_directory(fontpath)
     pyglet.font.load(config.fontname)
+
+    # Initialize Window
     window = pyglet.window.Window(fullscreen=config.fullscreen, caption='Studiouhr')
     window.set_mouse_visible(False)
 
@@ -189,9 +196,13 @@ if __name__ == "__main__":
         window.clear()
         update_time_string(None)
         update_special_string(None)
+
+        # Get color from zeitfarbe
         r,g,b = get_zeitfarbe(None)
         label.color = (r,g,b,255)
         labelspecial.color = (r,g,b,255)
+
+        # Convert 8bit color to float
         r,g,b = r/255., g/255., b/255.
         dotsfive.dotcolor = (r,g,b,1)
         dots.dotcolor = (r,g,b,1)
