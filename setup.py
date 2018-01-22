@@ -8,8 +8,8 @@ setup(name='studiouhr',
         author_email='dh@atoav.com',
         license='MIT',
         packages=['studiouhr'],
-        install_requires=['pyglet', 'astral'],
+        install_requires=['pyglet'],
         package_data = {'':['fonts/*.ttf']},
-        entry_points={'console_scripts':['studiouhr=studiouhr.studiouhr']},
+        entry_points={'console_scripts':['studiouhr=studiouhr.studiouhr:main']},
         zip_safe=False
         )
