@@ -151,12 +151,13 @@ def printstats(value):
     global b
     global hostname
     now = datetime.now()
-    sys.stdout.write("-"*15+" studiouhr.py running @"+str(hostname)+" "+"-"*15+" \r")
-    sys.stdout.write(("Time:").ljust(30)+now.strftime("%H:%M:%S.%f")+" \r")
-    sys.stdout.write("FPS:".ljust(30)+str(pyglet.clock.get_fps())+" \r")
+    sys.stdout.write("\r"+"-"*15+" studiouhr.py running @"+str(hostname)+" "+"-"*15)
+    sys.stdout.write("\r"+("Time:").ljust(30)+now.strftime("%H:%M:%S.%f"))
+    sys.stdout.write("\r"+"FPS:".ljust(30)+str(pyglet.clock.get_fps()))
     colorstring = "Current Color:".ljust(30)+str((r,g,b))
-    sys.stdout.write(colorstring+" \r")
+    sys.stdout.write("\r"+colorstring)
     sys.stdout.flush()
+
 
 
 def main():
