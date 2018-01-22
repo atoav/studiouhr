@@ -5,13 +5,11 @@ from vector import *
 from specialtext import *
 from zeitfarbe import *
 from config import *
-
 from datetime import *
 import pyglet
 import colorsys
 import ast
 from ConfigParser import ConfigParser
-from astral import Astral
 import os.path, sys
 from socket import gethostname
 
@@ -21,6 +19,7 @@ def update_time_string(value):
     """
     Updates the text/time for the textlabel
     """
+    global label
     now = datetime.now()
     label.document.text = now.strftime(textformat)
 
@@ -30,6 +29,7 @@ def update_special_string(value):
     """
     Updates the text for the textlabel
     """
+    global labelspecial
     now = datetime.now()
     labelspecial.document.text = check_special(now)
 
@@ -163,8 +163,9 @@ def printstats(value):
     sys.stdout.flush()
 
 
-if __name__ == "__main__":
+def main():
     # Get hostname with help of socket
+    global hostname
     hostname = gethostname()
     print "------ Studiouhr started on host "+str(hostname)+" ------"
 
@@ -172,10 +173,14 @@ if __name__ == "__main__":
     config = Config("settings.ini")
 
     # Resolves to '%H:%M' on default
+    global textformat
+    global r
+    global g
+    global b
     textformat = config.textformat
 
     # Load Fonts
-    fontpath = os.path.join(os.path.dirname(__file__), 'fonts')
+    fontpath = os.path.join(os.path.dirname(__file__), 'fonts/')
     if os.path.exists(fontpath):
         print "Load fonts from "+str(fontpath)
     else:
@@ -201,6 +206,8 @@ if __name__ == "__main__":
     r,g,b = get_zeitfarbe(None)
 
     # Declaration of Renderobjects
+    global label
+    global labelspecial
     label = pyglet.text.Label('??:??', font_name=config.fontname, font_size=fontsize, x=hw+xoffset, y=hh+yoffset, anchor_x='center', anchor_y='center', color=(r,g,b,255))
     labelspecial = pyglet.text.Label('', font_name=config.fontname, font_size=fontsize//4, x=hw+xoffset, y=hh+hh//3, anchor_x='center', anchor_y='center', color=(r,g,b,255))
     if config.displayarc: arc = TimeArc(hw, hh, secondradius, config.arcwidth, (r,g,b,0.3))
@@ -251,3 +258,15 @@ if __name__ == "__main__":
     print
     print "Clock is running now."
     pyglet.app.run()
+
+
+
+if __name__ == "__main__":
+    r = None
+    g = None
+    b = None
+    hostname = None
+    textformat = None
+    label = None
+    labelspecial = None
+    main()
