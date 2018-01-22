@@ -139,7 +139,6 @@ class TimeArc():
         arc.render()
 
 
-
 def get_zeitfarbe(value):
     value = timetofloat(datetime.now())
     zeitfarben, lastcolor, nextcolor, blendvalue = zeitfarbe(value, timedict)
