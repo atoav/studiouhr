@@ -45,23 +45,23 @@ def formatdelta(s, roundesconds=True):
         if days == 1:
             daysstring = "One Day"
         else:
-            daysstring = str(days)+" Days"
+            daysstring = str(int(days))+" Days"
     else:
         daysstring = ""
     if days > 0 and days <= 14:
-        string = daysstring+" and "+str(hours)+" Hours"
+        string = daysstring+" and "+str(int(hours))+" Hours"
     elif days > 14:
         string = daysstring
     elif hours > 0:
         if hours == 1:
-            string = "One Hour and "+str(minutes)+" Minutes"
+            string = "One Hour and "+str(int(minutes))+" Minutes"
         else:
-            string = str(hours)+" Hours and "+str(minutes)+" Minutes"
+            string = str(hours)+" Hours and "+str(int(minutes))+" Minutes"
     elif minutes > 0:
         if minutes == 1:
             string = "One Minute and "+str(seconds)+" Seconds"
         else:
-            string = str(minutes)+" Minutes and "+str(seconds)+" Seconds"
+            string = str(int(minutes))+" Minutes and "+str(seconds)+" Seconds"
     elif seconds > 0:
         string = str(seconds)+" Seconds"
     else:
