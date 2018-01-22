@@ -190,11 +190,11 @@ def printstats(value):
     os.system('cls' if os.name == 'nt' else 'clear')
     headerstring = "-"*15+" studiouhr.py running @"+str(hostname)+" "+"-"*15
     sys.stdout.write(headerstring+"\n")
-    sys.stdout.write("\r"+("Time:").ljust(30)+now.strftime("%H:%M:%S.%f"+"\n"))
-    sys.stdout.write("\r"+"FPS:".ljust(30)+str(pyglet.clock.get_fps())+"\n")
-    colorstring = "Current Color:".ljust(30)+str((r,g,b))
+    sys.stdout.write("\r"+("Current time displayed:").ljust(30)+now.strftime("%H:%M:%S"+"\n"))
+    sys.stdout.write("\r"+"Current FPS:".ljust(30)+str(pyglet.clock.get_fps())+"\n")
+    colorstring = "Current Display color:".ljust(30)+str((r,g,b))
     sys.stdout.write("\r"+colorstring+"\n")
-    sys.stdout.write("Uptime:".ljust(30)+formatdelta(uptime)+"\n")
+    sys.stdout.write("Running since:".ljust(30)+formatdelta(uptime)+"\n")
     sys.stdout.write("-"*len(headerstring))
     sys.stdout.flush()
 
