@@ -1,4 +1,5 @@
-STARTDIR=pwd
+#!/bin/sh
+STARTDIR=$(pwd)
 sudo pip install virtualenv
 virtualenv .env
 source .env/bin/activate
