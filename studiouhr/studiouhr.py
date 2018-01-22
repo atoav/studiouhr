@@ -150,12 +150,18 @@ def printstats(value):
     global g
     global b
     global hostname
+    global starttime
     now = datetime.now()
-    sys.stdout.write("-"*15+" studiouhr.py running @"+str(hostname)+" "+"-"*15+"\n")
+    uptime = now-starttime
+    os.system('cls' if os.name == 'nt' else 'clear')
+    headerstring = "-"*15+" studiouhr.py running @"+str(hostname)+" "+"-"*15
+    sys.stdout.write(headerstring+"\n")
     sys.stdout.write("\r"+("Time:").ljust(30)+now.strftime("%H:%M:%S.%f"+"\n"))
     sys.stdout.write("\r"+"FPS:".ljust(30)+str(pyglet.clock.get_fps())+"\n")
-    colorstring = "Current Color:".ljust(30)+str((r,g,b))+"\n"
-    sys.stdout.write("\r"+colorstring)
+    colorstring = "Current Color:".ljust(30)+str((r,g,b))
+    sys.stdout.write("\r"+colorstring+"\n")
+    sys.stdout.write("Uptime:".ljust(30)+str(uptime)+"\n")
+    sys.stdout.write("-"*len(headerstring))
     sys.stdout.flush()
 
 
@@ -165,6 +171,9 @@ def main():
     global hostname
     hostname = gethostname()
     print "------ Studiouhr started on host "+str(hostname)+" ------"
+
+    global starttime
+    starttime = datetime.now()
 
     # Load Configs
     config = Config("settings.ini")
@@ -259,6 +268,7 @@ def main():
 
 
 if __name__ == "__main__":
+    # Declare some global variables
     r = None
     g = None
     b = None
@@ -266,4 +276,5 @@ if __name__ == "__main__":
     textformat = None
     label = None
     labelspecial = None
+    starttime = None
     main()
