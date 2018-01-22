@@ -10,6 +10,6 @@ setup(name='studiouhr',
         packages=['studiouhr'],
         install_requires=['pyglet', 'astral'],
         package_data = {'':['fonts/*.ttf']},
-        entry_points={'console_scripts':['studiouhr=studiouhr.studiouhr:main_func']},
+        entry_points={'console_scripts':['studiouhr=studiouhr.studiouhr:main']},
         zip_safe=False
         )
