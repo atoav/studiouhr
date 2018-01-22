@@ -72,28 +72,43 @@ def mapvalue(value, leftMin, leftMax, rightMin=0.0, rightMax=1.0):
 
 
 
-def lerp(value, start_point, end_point, minimum=0.0, maximum=1.0):
+def lerp(value, start, end, minimum=0.0, maximum=1.0):
     """
     Linear Interpolation between two points
     """
     value = float(value)
-    start_point = float(start_point)
-    endpoint = float(end_point)
-    return minimum+((1.0-value) * start_point +value * end_point)*maximum
+    start = float(start)
+    end = float(end)
+    return minimum+((1.0-value) * start +value * end)*maximum
 
 
+def circularlerp(value, start, end):
+    """
+    Circular Lerp interpolation
+    Wraps around to get closest path (0.0 = 1.0)
+    """
+    shortest_path = ((end-start)+0.5)%1.0 -0.5
+    result = (start+shortest_path*value)%1.0
+    return result
 
 def lerp3d(value, (s1, s2, s3), (e1, e2, e3), minimum=0.0, maximum=1.0):
     """
     3D Linear Interpolation
     """
-
     r1 = lerp(value, s1, e1, minimum, maximum)
     r2 = lerp(value, s2, e2, minimum, maximum)
     r3 = lerp(value, s3, e3, minimum, maximum)
-
     return (r1, r2, r3)
 
+
+def lerphsv(value, (s1, s2, s3), (e1, e2, e3), minimum=0.0, maximum=1.0):
+    """
+    HSV Linear Interpolation (Hue takes closest path)
+    """
+    h = circularlerp(value, s1, e1)
+    s = lerp(value, s2, e2, minimum, maximum)
+    v = lerp(value, s3, e3, minimum, maximum)
+    return (h, s, v)
 
 
 def tableinterpolate(floatdict, value, minimum=0.0, maximum=1.0):
@@ -123,26 +138,13 @@ def tableinterpolate(floatdict, value, minimum=0.0, maximum=1.0):
         # Return a value btw. 0.0 and 1.0 representing the distance
         inbetweenvalue = mapvalue(value, closestkeydown, closestkeyup, 0.0, 1.0)
         # Interpolate between the two closest values
-        output = lerp3d(inbetweenvalue, floatdict[closestkeydown], floatdict[closestkeyup])
+        output = lerphsv(inbetweenvalue, floatdict[closestkeydown], floatdict[closestkeyup])
         blendvalue = inbetweenvalue
     else:
         output = floatdict[closestkeyup]
         blendvalue = 1.0
     # Return interpolated  last value, next value and blendvalue
     return output[0], output[1], output[2], closestkeydown, closestkeyup, blendvalue
-
-
-
-def hsv_to_rgb(h, s, v):
-    if s == 0.0: v*=255; return (v, v, v)
-    i = int(h*6.) # XXX assume int() truncates!
-    f = (h*6.)-i; p,q,t = int(255*(v*(1.-s))), int(255*(v*(1.-s*f))), int(255*(v*(1.-s*(1.-f)))); v*=255; i%=6
-    if i == 0: return (v, t, p)
-    if i == 1: return (q, v, p)
-    if i == 2: return (p, v, t)
-    if i == 3: return (p, q, v)
-    if i == 4: return (t, p, v)
-    if i == 5: return (v, p, q)
 
 
 
@@ -158,18 +160,24 @@ def zeitfarbe(value, timedict, minimum=0.0, maximum=1.0):
     hsvtable = {}
     for key in timedict.keys():
         r, g, b = timedict[key]
-        hsvtable[key] = colorsys.rgb_to_hsv(r/255., g/255., b/255.)
+        r, g, b = r/255., g/255., b/255.
+        hsvtable[key] = colorsys.rgb_to_hsv(r, g, b)
     # Get the interpolated HSV value
     h, s, v, lastkey, nextkey, blendvalue = tableinterpolate(hsvtable, value)
     # Covnert it back to RGB for convinience
-    r, g, b = [x*255 for x in colorsys.hsv_to_rgb(h, s, v)]
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    r, g, b = r*255, g*255, b*255
     return (r, g, b), timedict[lastkey], timedict[nextkey], blendvalue
 
+
 if __name__ == "__main__":
+    # Main is only used for debugging
     import colorsys
     from datetime import *
     now = datetime.now()
     value = timetofloat(now)
     zeitfarben, lastcolor, nextcolor, blendvalue = zeitfarbe(value, timedict)
     r, g, b = [channel for channel in zeitfarben]
-    print r, g, b
+    print "RGB In:".ljust(23)+str(lastcolor)
+    print "RGB Interpolation:".ljust(23)+str((int(r), int(g), int(b)))
+    print "RGB Out:".ljust(23)+str(nextcolor)
