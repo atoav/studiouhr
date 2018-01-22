@@ -33,11 +33,13 @@ def update_special_string(value):
     now = datetime.now()
     labelspecial.document.text = check_special(now)
 
-def formatdelta(s):
+def formatdelta(s, roundesconds=True):
     s = s.total_seconds()
     days, dremainder = divmod(s, 86400)
     hours, hremainder = divmod(dremainder, 3600)
     minutes, seconds = divmod(hremainder, 60)
+    if roundseconds:
+        seconds = int(seconds)
 
     if days > 0:
         if days == 1:
