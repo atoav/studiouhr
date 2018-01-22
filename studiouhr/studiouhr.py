@@ -33,6 +33,37 @@ def update_special_string(value):
     now = datetime.now()
     labelspecial.document.text = check_special(now)
 
+def formatdelta(s):
+    days, dremainder = divmod(s, 86400)
+    hours, hremainder = divmod(dremainder, 3600)
+    minutes, seconds = divmod(hremainder, 60)
+
+    if days > 0:
+        if days == 1:
+            daysstring = "One Day"
+        else:
+            daysstring = str(days)+" Days"
+    else:
+        daysstring = ""
+    if days > 0 and days <= 14:
+        string = daysstring+" and "+str(hours)+" Hours"
+    elif days > 14:
+        string = daysstring
+    elif hours > 0:
+        if hours == 1:
+            string = "One Hour and "+str(minutes)+" Minutes"
+        else:
+            string = str(hours)+" Hours and "+str(minutes)+" Minutes"
+    elif minutes > 0:
+        if minutes == 1:
+            string = "One Minute and "+str(seconds)+" Seconds"
+        else:
+            string = str(minutes)+" Minutes and "+str(seconds)+" Seconds"
+    elif seconds > 0:
+        string = str(seconds)+" Seconds"
+    else:
+        string = ""
+    return string
 
 
 class Dot():
@@ -160,7 +191,7 @@ def printstats(value):
     sys.stdout.write("\r"+"FPS:".ljust(30)+str(pyglet.clock.get_fps())+"\n")
     colorstring = "Current Color:".ljust(30)+str((r,g,b))
     sys.stdout.write("\r"+colorstring+"\n")
-    sys.stdout.write("Uptime:".ljust(30)+str(uptime)+"\n")
+    sys.stdout.write("Uptime:".ljust(30)+formatdelta(uptime)+"\n")
     sys.stdout.write("-"*len(headerstring))
     sys.stdout.flush()
 
@@ -255,7 +286,7 @@ def main():
     # Schedule Intervals
     pyglet.clock.schedule_interval(update_time_string, config.clockinterval)
     pyglet.clock.schedule_interval(update_special_string, 1000)
-    pyglet.clock.schedule_interval(printstats, 1)
+    pyglet.clock.schedule_interval(printstats, 25)
     pyglet.clock.schedule_interval(get_zeitfarbe, 0.02)
     if config.displayseconddots: pyglet.clock.schedule_interval(dots.update, config.dotinterval)
     if config.displayarc: pyglet.clock.schedule_interval(arc.update, config.arcinterval)
